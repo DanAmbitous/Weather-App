@@ -10,17 +10,6 @@ let unitSign;
 
 let countryAbbreviated = `${inputCountry.value.split('').join('.')}.`
 
-let windSpeedUnit;
-
-let unitMeasurement = (data) => {
-  if (windUnits.value === 'meters-seconds') {
-    console.log('m/s');
-    windSpeedUnit = `${data.wind.speed} m/s`
-  } else if (windUnits.value === 'miles-hours') {
-    console.log('mph');
-    windSpeedUnit = `${data.wind.speed * 2.23694} mph`
-  }
-}
 
 if (selectedTemperatureUnit.value === 'celsius') {
   selectedUnit = 'units=metric';
@@ -93,12 +82,10 @@ document.addEventListener('keyup', (event) => {
 
       countryAbbreviated = `${countryAbbreviation.split('').join('.')}.`
 
-      unitMeasurement = (data) => {
-        if (windUnits.value === 'meters-seconds') {
-          windSpeedUnit = `${data.wind.speed} m/s`
-        } else {
-          windSpeedUnit = `${data.wind.speed * 2.23694} mph`
-        }
+      if (windUnits.value === 'meters-seconds') {
+        windSpeedUnit = `${data.wind.speed} m/s`
+      } else {
+        windSpeedUnit = `${data.wind.speed * 2.23694} mph`
       }
     
       if (selectedTemperatureUnit.value === 'celsius') {
@@ -128,16 +115,20 @@ document.addEventListener('keyup', (event) => {
 const dataSection = (data) => {
   let cityCapitalized = cityName.charAt(0).toUpperCase() + cityName.slice(1);
 
-  console.log(windSpeedUnit);
+  if (windUnits.value === 'meters-seconds') {
+    windSpeedUnit = `${data.wind.speed} m/s` 
+  } else if (windUnits.value === 'miles-hours') {
+    windSpeedUnit = `${Math.round((data.wind.speed * 2.23694) * 100 + Number.EPSILON) / 100} mph }`
+  }
 
   document.getElementById('city-data').textContent = cityCapitalized;
   document.getElementById('country-data').textContent = data.sys.country;
   document.getElementById('temperature-data').textContent = `Temperature: ${data.main.temp}${unitSign}`;
-  document.getElementById('minimum-data').textContent = `Minimun: ${data.main.temp_min}${unitSign}Maximum: `;
-  document.getElementById('minimum-data').textContent = `Maximum: ${data.main.temp_max}${unitSign}`;
+  document.getElementById('minimum-data').textContent = `Minimum: ${data.main.temp_min}${unitSign}`;
+  document.getElementById('maximum-data').textContent = `Maximum: ${data.main.temp_max}${unitSign}`;
   document.getElementById('feels-data').textContent = `Feels Like: ${data.main.feels_like}${unitSign}`;
   document.getElementById('humidity').textContent = `Humidity: ${data.main.humidity}%`;
-  document.getElementById('humidity').textContent = `Pressure: ${data.main.pressure} hPa`;
+  document.getElementById('pressure').textContent = `Pressure: ${data.main.pressure} hPa`;
   document.getElementById('wind').textContent = windSpeedUnit;
   document.getElementById('longitud-data').textContent = `Longitud: ${data.coord.lon}`;
   document.getElementById('latitud-data').textContent = `Latitud: ${data.coord.lat}`;
@@ -150,6 +141,21 @@ const iconShower = (data) => {
   iconLocation.innerHTML = `<img src="icons/${icon}.png"></img>`
 
   iconDescription.textContent = data.weather[0].description;
+}
+
+const windUnit = (data) => {
+  document.addEventListener('input', (event) => {
+    let unit = event.target.value;
+  
+    switch(unit) {
+      case 'miles-hours':
+        dataSection(data);
+        break;
+      case 'meters-seconds':
+        dataSection(data);
+        break;
+    }
+  })
 }
 
 const validateResponse = response => {
@@ -168,7 +174,7 @@ const logResolve = responseObject => {
   chartWeather(responseObject);
   dataSection(responseObject);
   iconShower(responseObject);
-  unitMeasurement(responseObject);
+  windUnit(responseObject)
 }
 
 const logReject = error => {
