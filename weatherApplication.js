@@ -2,11 +2,25 @@ const inputCity = document.getElementById('input-city');
 const inputCountry = document.getElementById('input-country');
 const selectedTemperatureUnit = document.getElementById('temperature-units');
 const data = document.getElementById('data');
+const iconDescription = document.getElementById('icon-description');
+const windUnits = document.getElementById('wind-units');
 
 let selectedUnit;
 let unitSign;
 
 let countryAbbreviated = `${inputCountry.value.split('').join('.')}.`
+
+let windSpeedUnit;
+
+let unitMeasurement = (data) => {
+  if (windUnits.value === 'meters-seconds') {
+    console.log('m/s');
+    windSpeedUnit = `${data.wind.speed} m/s`
+  } else if (windUnits.value === 'miles-hours') {
+    console.log('mph');
+    windSpeedUnit = `${data.wind.speed * 2.23694} mph`
+  }
+}
 
 if (selectedTemperatureUnit.value === 'celsius') {
   selectedUnit = 'units=metric';
@@ -36,6 +50,56 @@ document.addEventListener('click', (event) => {
       countryAbbreviation = inputCountry.value;
 
       countryAbbreviated = `${countryAbbreviation.split('').join('.')}.`
+
+      unitMeasurement = (data) => {
+        if (windUnits.value === 'meters-seconds') {
+          windSpeedUnit = `${data.wind.speed} m/s`
+        } else {
+          windSpeedUnit = `${data.wind.speed * 2.23694} mph`
+        }
+      }
+    
+      if (selectedTemperatureUnit.value === 'celsius') {
+        selectedUnit = 'units=metric';
+        unitSign = '°C';
+      } else if (selectedTemperatureUnit.value === 'fahrenheit') {
+        selectedUnit = 'units=imperial';
+        unitSign = '°F';
+      } else {
+        selectedUnit = 'units=kelvin';
+        unitSign = '°K';
+      }
+
+      let temperatureUnit = selectedUnit;
+
+      if (inputCity.value.length === 0) {
+        inputCity.value = 'london';
+      } 
+
+      apiLink = `${link}${cityName},${countryAbbreviation}&${apiKey}&${temperatureUnit}`;
+
+      apiUrl(apiLink);
+      break;
+  }
+})
+
+document.addEventListener('keyup', (event) => {
+  let key = event.key;
+
+  switch(key) {
+    case 'Enter':
+      cityName = inputCity.value;
+      countryAbbreviation = inputCountry.value;
+
+      countryAbbreviated = `${countryAbbreviation.split('').join('.')}.`
+
+      unitMeasurement = (data) => {
+        if (windUnits.value === 'meters-seconds') {
+          windSpeedUnit = `${data.wind.speed} m/s`
+        } else {
+          windSpeedUnit = `${data.wind.speed * 2.23694} mph`
+        }
+      }
     
       if (selectedTemperatureUnit.value === 'celsius') {
         selectedUnit = 'units=metric';
@@ -62,16 +126,21 @@ document.addEventListener('click', (event) => {
 })
 
 const dataSection = (data) => {
-  console.log(data);
+  let cityCapitalized = cityName.charAt(0).toUpperCase() + cityName.slice(1);
 
-  document.getElementById('city-data').textContent = cityName;
-  document.getElementById('country-data').textContent = countryAbbreviated;
-  document.getElementById('temperature-data').textContent = `${data.main.temp}${unitSign}`;
-  document.getElementById('minimum-data').textContent = `${data.main.temp_min}${unitSign}`;
-  document.getElementById('minimum-data').textContent = `${data.main.temp_max}${unitSign}`;
-  document.getElementById('feels-data').textContent = `${data.main.feels_like}${unitSign}`;
-  document.getElementById('longitud-data').textContent = `${data.coord.lon}`;
-  document.getElementById('latitud-data').textContent = `${data.coord.lat}`;
+  console.log(windSpeedUnit);
+
+  document.getElementById('city-data').textContent = cityCapitalized;
+  document.getElementById('country-data').textContent = data.sys.country;
+  document.getElementById('temperature-data').textContent = `Temperature: ${data.main.temp}${unitSign}`;
+  document.getElementById('minimum-data').textContent = `Minimun: ${data.main.temp_min}${unitSign}Maximum: `;
+  document.getElementById('minimum-data').textContent = `Maximum: ${data.main.temp_max}${unitSign}`;
+  document.getElementById('feels-data').textContent = `Feels Like: ${data.main.feels_like}${unitSign}`;
+  document.getElementById('humidity').textContent = `Humidity: ${data.main.humidity}%`;
+  document.getElementById('humidity').textContent = `Pressure: ${data.main.pressure} hPa`;
+  document.getElementById('wind').textContent = windSpeedUnit;
+  document.getElementById('longitud-data').textContent = `Longitud: ${data.coord.lon}`;
+  document.getElementById('latitud-data').textContent = `Latitud: ${data.coord.lat}`;
 }
 
 const iconShower = (data) => {
@@ -79,6 +148,8 @@ const iconShower = (data) => {
 
   let iconLocation = document.getElementById('weather-icon');
   iconLocation.innerHTML = `<img src="icons/${icon}.png"></img>`
+
+  iconDescription.textContent = data.weather[0].description;
 }
 
 const validateResponse = response => {
@@ -97,6 +168,7 @@ const logResolve = responseObject => {
   chartWeather(responseObject);
   dataSection(responseObject);
   iconShower(responseObject);
+  unitMeasurement(responseObject);
 }
 
 const logReject = error => {

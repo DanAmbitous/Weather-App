@@ -17,8 +17,11 @@
       <p>Country: <input type="text" id="input-country" class="data" value="uk" placeholder="uk, ru, us..."></p>
     </div>
 
-    <div id="weather-icon">
-      <img src="icons/unknown.png" alt="weather icon" id="weather-image">
+    <div class="grid-item">
+      <div id="weather-icon">
+        <img src="icons/unknown.png" alt="weather icon" id="weather-image">
+      </div>
+      <p id="icon-description"></p>
     </div>
 
     <!-- Selecting a temperature unit -->
@@ -44,6 +47,14 @@
         <p id="minimum-data"></p>
         <p id="maximum-data"></p>
         <p id="feels-data"></p>
+        <p id="humidity"></p>
+        <p id="pressure"></p>
+        <label for="wind-units">Wind</label>
+        <select name="wind-units" id="wind-units">
+          <option value="meters-seconds">m/s</option>
+          <option value="miles-hours">mph</option>
+        </select>
+        <p id="wind"></p>
         <p id="longitud-data"></p>
         <p id="latitud-data"></p>
       </div>
