@@ -74,6 +74,13 @@ const dataSection = (data) => {
   document.getElementById('latitud-data').textContent = `${data.coord.lat}`;
 }
 
+const iconShower = (data) => {
+  let icon = data.weather[0].icon;
+
+  let iconLocation = document.getElementById('weather-icon');
+  iconLocation.innerHTML = `<img src="icons/${icon}.png"></img>`
+}
+
 const validateResponse = response => {
   if (!response.ok) {
     throw `Error message with the status code ${response.statusText}`
@@ -82,20 +89,14 @@ const validateResponse = response => {
   return response;
 }
 
-const jsonification = responseValidaded => {
-  return responseValidaded.json();
+const jsonification = responseValidator => {
+  return responseValidator.json();
 }
 
 const logResolve = responseObject => {
   chartWeather(responseObject);
   dataSection(responseObject);
-
-  console.log(responseObject.weather[0]);
-
-  let icon = responseObject.weather[0].icon;
-
-  let iconLocation = document.getElementById('weather-icon');
-  iconLocation.innerHTML = `<img src="icons/${icon}.png"></img>`
+  iconShower(responseObject);
 }
 
 const logReject = error => {
