@@ -3,29 +3,51 @@ const inputCountry = document.getElementById('input-country');
 const selectedTemperatureUnit = document.getElementById('temperature-units');
 const data = document.getElementById('data');
 const iconDescription = document.getElementById('icon-description');
-const windUnits = document.getElementById('wind-units');
-
-let selectedUnit;
-let unitSign;
 
 let countryAbbreviated = `${inputCountry.value.split('').join('.')}.`
 
-if (selectedTemperatureUnit.value === 'celsius') {
-  selectedUnit = 'units=metric';
-  unitSign = '°C';
-} else if (selectedTemperatureUnit.value === 'fahrenheit') {
-  selectedUnit = 'units=imperial';
-  unitSign = '°F';
-} else {
-  selectedUnit = 'units=kelvin';
-  unitSign = '°K';
+let selectedUnit;
+let unitSign;
+let temperatureUnit = selectedUnit;
+
+const temperatureUnitSelector = () => {
+  if (selectedTemperatureUnit.value === 'celsius') {
+    selectedUnit = 'units=metric';
+    unitSign = '°C';
+  } else if (selectedTemperatureUnit.value === 'fahrenheit') {
+    selectedUnit = 'units=imperial';
+    unitSign = '°F';
+  } else {
+    selectedUnit = 'units=kelvin';
+    unitSign = '°K';
+  }
+
+  temperatureUnit = selectedUnit;
+}
+
+temperatureUnitSelector();
+
+const valueAssigner = () => {
+  cityName = inputCity.value;
+  countryAbbreviation = inputCountry.value;
+
+  countryAbbreviated = `${countryAbbreviation.split('').join('.')}.`
+
+  temperatureUnitSelector();
+
+  if (inputCity.value.length === 0) {
+    inputCity.value = 'london';
+  } 
+
+  apiLink = `${link}${cityName},${countryAbbreviation}&${apiKey}&${temperatureUnit}`;
+
+  apiUrlWeather(apiLink);
 }
 
 let link = 'http://api.openweathermap.org/data/2.5/weather?q=';
 let cityName = inputCity.value;
 let countryAbbreviation = inputCountry.value;
 let apiKey = 'APPID=469f04c0b3bc1ee6ca83abdfb8c7e6d3';
-let temperatureUnit = selectedUnit;
 
 let apiLink = `${link}${cityName},${countryAbbreviation}&${apiKey}&${temperatureUnit}`;
 
@@ -34,43 +56,7 @@ document.addEventListener('click', (event) => {
 
   switch(activated) {
     case 'submit':
-      cityName = inputCity.value;
-      countryAbbreviation = inputCountry.value;
-
-      countryAbbreviated = `${countryAbbreviation.split('').join('.')}.`
-
-      unitMeasurement = (data) => {
-        if (windUnits.value === 'meters-seconds') {
-          windSpeedUnit = `${data.wind.speed} m/s`
-        } else if (windUnit.value === "miles-hours") {
-          windSpeedUnit = `${Math.round((data.wind.speed * 2.23694) * 100 + Number.EPSILON) / 100} mph`
-        } else if (windUnits.value === 'feets-seconds') {
-          windSpeedUnit = `${Math.round((data.wind.speed * 3.28084) * 100 + Number.EPSILON) / 100} ft/s`
-        } else if (windUnits.value === 'kilometers-hours') {
-          windSpeedUnit = `${Math.round((data.wind.speed * 3.6) * 100 + Number.EPSILON) / 100} kl/h`
-        }
-      } 
-    
-      if (selectedTemperatureUnit.value === 'celsius') {
-        selectedUnit = 'units=metric';
-        unitSign = '°C';
-      } else if (selectedTemperatureUnit.value === 'fahrenheit') {
-        selectedUnit = 'units=imperial';
-        unitSign = '°F';
-      } else {
-        selectedUnit = 'units=kelvin';
-        unitSign = '°K';
-      }
-
-      let temperatureUnit = selectedUnit;
-
-      if (inputCity.value.length === 0) {
-        inputCity.value = 'london';
-      } 
-
-      apiLink = `${link}${cityName},${countryAbbreviation}&${apiKey}&${temperatureUnit}`;
-
-      apiUrlWeather(apiLink);
+        valueAssigner();
       break;
   }
 })
@@ -80,62 +66,14 @@ document.addEventListener('keyup', (event) => {
 
   switch(key) {
     case 'Enter':
-      cityName = inputCity.value;
-      countryAbbreviation = inputCountry.value;
-
-      countryAbbreviated = `${countryAbbreviation.split('').join('.')}.`
-
-      // 2.23694
-
-      unitMeasurement = (data) => {
-        if (windUnits.value === 'meters-seconds') {
-          windSpeedUnit = `${data.wind.speed} m/s`
-        } else if (windUnit.value === "miles-hours") {
-          windSpeedUnit = `${Math.round((data.wind.speed * 2.23694) * 100 + Number.EPSILON) / 100} mph`
-        } else if (windUnits.value === 'feets-seconds') {
-          windSpeedUnit = `${Math.round((data.wind.speed * 3.28084) * 100 + Number.EPSILON) / 100} ft/s`
-        } else if (windUnits.value === 'kilometers-hours') {
-          windSpeedUnit = `${Math.round((data.wind.speed * 3.6) * 100 + Number.EPSILON) / 100} kl/h`
-        }
-      }
-    
-      if (selectedTemperatureUnit.value === 'celsius') {
-        selectedUnit = 'units=metric';
-        unitSign = '°C';
-      } else if (selectedTemperatureUnit.value === 'fahrenheit') {
-        selectedUnit = 'units=imperial';
-        unitSign = '°F';
-      } else {
-        selectedUnit = 'units=kelvin';
-        unitSign = '°K';
-      }
-
-      let temperatureUnit = selectedUnit;
-
-      if (inputCity.value.length === 0) {
-        inputCity.value = 'london';
-      } 
-
-      apiLink = `${link}${cityName},${countryAbbreviation}&${apiKey}&${temperatureUnit}`;
-
-      apiUrlWeather(apiLink);
+        valueAssigner();
       break;
   }
 })
 
 const dataSection = (data) => {
   let cityCapitalized = cityName.charAt(0).toUpperCase() + cityName.slice(1);
-
-  if (windUnits.value === 'meters-seconds') {
-    windSpeedUnit = `${data.wind.speed} m/s`
-  } else if (windUnit.value === "miles-hours") {
-    windSpeedUnit = `${Math.round((data.wind.speed * 2.23694) * 100 + Number.EPSILON) / 100} mph`
-  } else if (windUnits.value === 'feets-seconds') {
-    windSpeedUnit = `${Math.round((data.wind.speed * 3.28084) * 100 + Number.EPSILON) / 100} ft/s`
-  } else if (windUnits.value === 'kilometers-hours') {
-    windSpeedUnit = `${Math.round((data.wind.speed * 3.6) * 100 + Number.EPSILON) / 100} kl/h`
-  }
-
+  
   document.getElementById('city-data').textContent = cityCapitalized;
   document.getElementById('country-data').textContent = data.sys.country;
   document.getElementById('temperature-data').textContent = `Temperature: ${data.main.temp}${unitSign}`;
@@ -144,7 +82,7 @@ const dataSection = (data) => {
   document.getElementById('feels-data').textContent = `Feels Like: ${data.main.feels_like}${unitSign}`;
   document.getElementById('humidity').textContent = `Humidity: ${data.main.humidity}%`;
   document.getElementById('pressure').textContent = `Pressure: ${data.main.pressure} hPa`;
-  document.getElementById('wind').textContent = windSpeedUnit;
+  // document.getElementById('wind').textContent = windSpeedUnit;
   document.getElementById('longitud-data').textContent = `Longitud: ${data.coord.lon}`;
   document.getElementById('latitud-data').textContent = `Latitud: ${data.coord.lat}`;
 }
@@ -192,10 +130,8 @@ const apiUrlWeather = respones => {
 
 apiUrlWeather(apiLink);
 
-let apiData;
-
 const chartWeather = (data) => {
-  apiData = data;
+  let apiData = data;
 
   const ctx = document.getElementById('weather-information').getContext('2d');
 
