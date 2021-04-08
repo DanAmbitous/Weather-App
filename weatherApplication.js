@@ -21,6 +21,8 @@ if (selectedTemperatureUnit.value === 'celsius') {
   unitSign = '°K';
 }
 
+let windSpeedUnit;
+
 let link = 'http://api.openweathermap.org/data/2.5/weather?q=';
 let cityName = inputCity.value;
 let countryAbbreviation = inputCountry.value;
@@ -38,18 +40,6 @@ document.addEventListener('click', (event) => {
       countryAbbreviation = inputCountry.value;
 
       countryAbbreviated = `${countryAbbreviation.split('').join('.')}.`
-
-      unitMeasurement = (data) => {
-        if (windUnits.value === 'meters-seconds') {
-          windSpeedUnit = `${data.wind.speed} m/s`
-        } else if (windUnit.value === "miles-hours") {
-          windSpeedUnit = `${Math.round((data.wind.speed * 2.23694) * 100 + Number.EPSILON) / 100} mph`
-        } else if (windUnits.value === 'feets-seconds') {
-          windSpeedUnit = `${Math.round((data.wind.speed * 3.28084) * 100 + Number.EPSILON) / 100} ft/s`
-        } else if (windUnits.value === 'kilometers-hours') {
-          windSpeedUnit = `${Math.round((data.wind.speed * 3.6) * 100 + Number.EPSILON) / 100} kl/h`
-        }
-      } 
     
       if (selectedTemperatureUnit.value === 'celsius') {
         selectedUnit = 'units=metric';
@@ -60,6 +50,22 @@ document.addEventListener('click', (event) => {
       } else {
         selectedUnit = 'units=kelvin';
         unitSign = '°K';
+      }
+
+      windData = (apiData) => {
+        if (windUnits.value === 'meters-seconds') {
+          windSpeedUnit = `${apiData.wind.speed} m/s`;
+          document.getElementById('wind').textContent = windSpeedUnit;
+        } else if (windUnits.value === 'miles-hours') {
+          windSpeedUnit = `${Math.round((apiData.wind.speed * 2.23694) * 100 + Number.EPSILON) / 100} mph`;
+          document.getElementById('wind').textContent = windSpeedUnit;
+        } else if (windUnits.value === 'feets-seconds') {
+          windSpeedUnit = `${Math.round((apiData.wind.speed * 3.28084) * 100 + Number.EPSILON) / 100} ft/s`;
+          document.getElementById('wind').textContent = windSpeedUnit;
+        } else if (windUnits.value === 'kilometers-hours') {
+          windSpeedUnit = `${Math.round((apiData.wind.speed * 3.6) * 100 + Number.EPSILON) / 100} kl/h`;
+          document.getElementById('wind').textContent = windSpeedUnit;
+        }
       }
 
       let temperatureUnit = selectedUnit;
@@ -74,30 +80,20 @@ document.addEventListener('click', (event) => {
       break;
   }
 })
+
+// windUnits.addEventListener('input', windData());
 
 document.addEventListener('keyup', (event) => {
   let key = event.key;
 
   switch(key) {
+
+    
     case 'Enter':
       cityName = inputCity.value;
       countryAbbreviation = inputCountry.value;
 
       countryAbbreviated = `${countryAbbreviation.split('').join('.')}.`
-
-      // 2.23694
-
-      unitMeasurement = (data) => {
-        if (windUnits.value === 'meters-seconds') {
-          windSpeedUnit = `${data.wind.speed} m/s`
-        } else if (windUnit.value === "miles-hours") {
-          windSpeedUnit = `${Math.round((data.wind.speed * 2.23694) * 100 + Number.EPSILON) / 100} mph`
-        } else if (windUnits.value === 'feets-seconds') {
-          windSpeedUnit = `${Math.round((data.wind.speed * 3.28084) * 100 + Number.EPSILON) / 100} ft/s`
-        } else if (windUnits.value === 'kilometers-hours') {
-          windSpeedUnit = `${Math.round((data.wind.speed * 3.6) * 100 + Number.EPSILON) / 100} kl/h`
-        }
-      }
     
       if (selectedTemperatureUnit.value === 'celsius') {
         selectedUnit = 'units=metric';
@@ -108,6 +104,22 @@ document.addEventListener('keyup', (event) => {
       } else {
         selectedUnit = 'units=kelvin';
         unitSign = '°K';
+      }
+
+      windData = (apiData) => {
+        if (windUnits.value === 'meters-seconds') {
+          windSpeedUnit = `${apiData.wind.speed} m/s`;
+          document.getElementById('wind').textContent = windSpeedUnit;
+        } else if (windUnits.value === 'miles-hours') {
+          windSpeedUnit = `${Math.round((apiData.wind.speed * 2.23694) * 100 + Number.EPSILON) / 100} mph`;
+          document.getElementById('wind').textContent = windSpeedUnit;
+        } else if (windUnits.value === 'feets-seconds') {
+          windSpeedUnit = `${Math.round((apiData.wind.speed * 3.28084) * 100 + Number.EPSILON) / 100} ft/s`;
+          document.getElementById('wind').textContent = windSpeedUnit;
+        } else if (windUnits.value === 'kilometers-hours') {
+          windSpeedUnit = `${Math.round((apiData.wind.speed * 3.6) * 100 + Number.EPSILON) / 100} kl/h`;
+          document.getElementById('wind').textContent = windSpeedUnit;
+        }
       }
 
       let temperatureUnit = selectedUnit;
@@ -123,17 +135,42 @@ document.addEventListener('keyup', (event) => {
   }
 })
 
+windData = (apiData) => {
+  console.log('hi')
+  document.addEventListener('input', () => {
+    if (windUnits.value === 'meters-seconds') {
+      windSpeedUnit = `${apiData.wind.speed} m/s`;
+      document.getElementById('wind').textContent = windSpeedUnit;
+    } else if (windUnits.value === 'miles-hours') {
+      windSpeedUnit = `${Math.round((apiData.wind.speed * 2.23694) * 100 + Number.EPSILON) / 100} mph`;
+      document.getElementById('wind').textContent = windSpeedUnit;
+    } else if (windUnits.value === 'feets-seconds') {
+      windSpeedUnit = `${Math.round((apiData.wind.speed * 3.28084) * 100 + Number.EPSILON) / 100} ft/s`;
+      document.getElementById('wind').textContent = windSpeedUnit;
+    } else if (windUnits.value === 'kilometers-hours') {
+      windSpeedUnit = `${Math.round((apiData.wind.speed * 3.6) * 100 + Number.EPSILON) / 100} kl/h`;
+      document.getElementById('wind').textContent = windSpeedUnit;
+    }
+  })
+}
+
 const dataSection = (data) => {
   let cityCapitalized = cityName.charAt(0).toUpperCase() + cityName.slice(1);
 
-  if (windUnits.value === 'meters-seconds') {
-    windSpeedUnit = `${data.wind.speed} m/s`
-  } else if (windUnit.value === "miles-hours") {
-    windSpeedUnit = `${Math.round((data.wind.speed * 2.23694) * 100 + Number.EPSILON) / 100} mph`
-  } else if (windUnits.value === 'feets-seconds') {
-    windSpeedUnit = `${Math.round((data.wind.speed * 3.28084) * 100 + Number.EPSILON) / 100} ft/s`
-  } else if (windUnits.value === 'kilometers-hours') {
-    windSpeedUnit = `${Math.round((data.wind.speed * 3.6) * 100 + Number.EPSILON) / 100} kl/h`
+  windData = (data) => {
+    if (windUnits.value === 'meters-seconds') {
+      windSpeedUnit = `${data.wind.speed} m/s`;
+      document.getElementById('wind').textContent = windSpeedUnit;
+    } else if (windUnits.value === 'miles-hours') {
+      windSpeedUnit = `${Math.round((data.wind.speed * 2.23694) * 100 + Number.EPSILON) / 100} mph`;
+      document.getElementById('wind').textContent = windSpeedUnit;
+    } else if (windUnits.value === 'feets-seconds') {
+      windSpeedUnit = `${Math.round((data.wind.speed * 3.28084) * 100 + Number.EPSILON) / 100} ft/s`;
+      document.getElementById('wind').textContent = windSpeedUnit;
+    } else if (windUnits.value === 'kilometers-hours') {
+      windSpeedUnit = `${Math.round((data.wind.speed * 3.6) * 100 + Number.EPSILON) / 100} kl/h`;
+      document.getElementById('wind').textContent = windSpeedUnit;
+    }
   }
 
   document.getElementById('city-data').textContent = cityCapitalized;
@@ -174,6 +211,7 @@ const logResolve = responseObject => {
   chartWeather(responseObject);
   dataSection(responseObject);
   iconShower(responseObject);
+  windData(responseObject);
 }
 
 const logReject = error => {
@@ -192,10 +230,8 @@ const apiUrlWeather = respones => {
 
 apiUrlWeather(apiLink);
 
-let apiData;
-
 const chartWeather = (data) => {
-  apiData = data;
+  let apiData = data;
 
   const ctx = document.getElementById('weather-information').getContext('2d');
 
