@@ -11,27 +11,29 @@
 </head>
 <body>
   <div class="grid-container">
-    <div class="grid-item">
-      <!-- Input city and country abbreviation -->
-      <p>City: <input type="text" id="input-city" class="data" value="london" placeholder="New York, Madrid, Istanbul..."></p>
-      <p>Country: <input type="text" id="input-country" class="data" value="uk" placeholder="uk, ru, us..."></p>
+    <div class="flex-container-inputs">
+      <div class="grid-item">
+        <!-- Input city and country abbreviation -->
+        <p>City: <input type="text" id="input-city" class="data" value="london" placeholder="New York, Madrid, Istanbul..."></p>
+        <p>Country: <input type="text" id="input-country" class="data" value="uk" placeholder="uk, ru, us..."></p>
+      </div>
+      
+      <!-- Selecting a temperature unit -->
+      <div class="grid-item">
+        <label for="temperature-units">Choose Temperature:</label>
+        <select name="temperature-units" id="temperature-units">
+          <option value="celsius" id="celsius">Celsius</option>
+          <option value="fahrenheit" id="fahrenheit">Fahrenheit</option>
+          <option value="kelvin" id="kelvin">Kelvin</option>
+        </select>
+      </div>
     </div>
-
+   
     <div class="grid-item">
       <div id="weather-icon">
         <img src="icons/unknown.png" alt="weather icon" id="weather-image">
       </div>
       <p id="icon-description"></p>
-    </div>
-
-    <!-- Selecting a temperature unit -->
-    <div class="grid-item">
-      <label for="temperature-units">Choose Temperature:</label>
-      <select name="temperature-units" id="temperature-units">
-        <option value="celsius" id="celsius">Celsius</option>
-        <option value="fahrenheit" id="fahrenheit">Fahrenheit</option>
-        <option value="kelvin" id="kelvin">Kelvin</option>
-      </select>
     </div>
  
     <div class="grid-item">
@@ -54,6 +56,8 @@
         <select name="wind-units" id="wind-units">
           <option value="meters-seconds">m/s</option>
           <option value="miles-hours">mph</option>
+          <option value="feets-seconds">ft/s</option>
+          <option value="kilometers-hours">kl/h</option>
         </select>
         <p id="wind"></p></span>
         <p id="longitud-data"></p>

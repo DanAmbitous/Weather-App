@@ -10,7 +10,6 @@ let unitSign;
 
 let countryAbbreviated = `${inputCountry.value.split('').join('.')}.`
 
-
 if (selectedTemperatureUnit.value === 'celsius') {
   selectedUnit = 'units=metric';
   unitSign = '°C';
@@ -43,8 +42,60 @@ document.addEventListener('click', (event) => {
       unitMeasurement = (data) => {
         if (windUnits.value === 'meters-seconds') {
           windSpeedUnit = `${data.wind.speed} m/s`
-        } else {
-          windSpeedUnit = `${data.wind.speed * 2.23694} mph`
+        } else if (windUnit.value === "miles-hours") {
+          windSpeedUnit = `${Math.round((data.wind.speed * 2.23694) * 100 + Number.EPSILON) / 100} mph`
+        } else if (windUnits.value === 'feets-seconds') {
+          windSpeedUnit = `${Math.round((data.wind.speed * 3.28084) * 100 + Number.EPSILON) / 100} ft/s`
+        } else if (windUnits.value === 'kilometers-hours') {
+          windSpeedUnit = `${Math.round((data.wind.speed * 3.6) * 100 + Number.EPSILON) / 100} kl/h`
+        }
+      } 
+    
+      if (selectedTemperatureUnit.value === 'celsius') {
+        selectedUnit = 'units=metric';
+        unitSign = '°C';
+      } else if (selectedTemperatureUnit.value === 'fahrenheit') {
+        selectedUnit = 'units=imperial';
+        unitSign = '°F';
+      } else {
+        selectedUnit = 'units=kelvin';
+        unitSign = '°K';
+      }
+
+      let temperatureUnit = selectedUnit;
+
+      if (inputCity.value.length === 0) {
+        inputCity.value = 'london';
+      } 
+
+      apiLink = `${link}${cityName},${countryAbbreviation}&${apiKey}&${temperatureUnit}`;
+
+      apiUrlWeather(apiLink);
+      break;
+  }
+})
+
+document.addEventListener('keyup', (event) => {
+  let key = event.key;
+
+  switch(key) {
+    case 'Enter':
+      cityName = inputCity.value;
+      countryAbbreviation = inputCountry.value;
+
+      countryAbbreviated = `${countryAbbreviation.split('').join('.')}.`
+
+      // 2.23694
+
+      unitMeasurement = (data) => {
+        if (windUnits.value === 'meters-seconds') {
+          windSpeedUnit = `${data.wind.speed} m/s`
+        } else if (windUnit.value === "miles-hours") {
+          windSpeedUnit = `${Math.round((data.wind.speed * 2.23694) * 100 + Number.EPSILON) / 100} mph`
+        } else if (windUnits.value === 'feets-seconds') {
+          windSpeedUnit = `${Math.round((data.wind.speed * 3.28084) * 100 + Number.EPSILON) / 100} ft/s`
+        } else if (windUnits.value === 'kilometers-hours') {
+          windSpeedUnit = `${Math.round((data.wind.speed * 3.6) * 100 + Number.EPSILON) / 100} kl/h`
         }
       }
     
@@ -67,47 +118,7 @@ document.addEventListener('click', (event) => {
 
       apiLink = `${link}${cityName},${countryAbbreviation}&${apiKey}&${temperatureUnit}`;
 
-      apiUrl(apiLink);
-      break;
-  }
-})
-
-document.addEventListener('keyup', (event) => {
-  let key = event.key;
-
-  switch(key) {
-    case 'Enter':
-      cityName = inputCity.value;
-      countryAbbreviation = inputCountry.value;
-
-      countryAbbreviated = `${countryAbbreviation.split('').join('.')}.`
-
-      if (windUnits.value === 'meters-seconds') {
-        windSpeedUnit = `${data.wind.speed} m/s`
-      } else {
-        windSpeedUnit = `${data.wind.speed * 2.23694} mph`
-      }
-    
-      if (selectedTemperatureUnit.value === 'celsius') {
-        selectedUnit = 'units=metric';
-        unitSign = '°C';
-      } else if (selectedTemperatureUnit.value === 'fahrenheit') {
-        selectedUnit = 'units=imperial';
-        unitSign = '°F';
-      } else {
-        selectedUnit = 'units=kelvin';
-        unitSign = '°K';
-      }
-
-      let temperatureUnit = selectedUnit;
-
-      if (inputCity.value.length === 0) {
-        inputCity.value = 'london';
-      } 
-
-      apiLink = `${link}${cityName},${countryAbbreviation}&${apiKey}&${temperatureUnit}`;
-
-      apiUrl(apiLink);
+      apiUrlWeather(apiLink);
       break;
   }
 })
@@ -116,9 +127,13 @@ const dataSection = (data) => {
   let cityCapitalized = cityName.charAt(0).toUpperCase() + cityName.slice(1);
 
   if (windUnits.value === 'meters-seconds') {
-    windSpeedUnit = `${data.wind.speed} m/s` 
-  } else if (windUnits.value === 'miles-hours') {
-    windSpeedUnit = `${Math.round((data.wind.speed * 2.23694) * 100 + Number.EPSILON) / 100} mph }`
+    windSpeedUnit = `${data.wind.speed} m/s`
+  } else if (windUnit.value === "miles-hours") {
+    windSpeedUnit = `${Math.round((data.wind.speed * 2.23694) * 100 + Number.EPSILON) / 100} mph`
+  } else if (windUnits.value === 'feets-seconds') {
+    windSpeedUnit = `${Math.round((data.wind.speed * 3.28084) * 100 + Number.EPSILON) / 100} ft/s`
+  } else if (windUnits.value === 'kilometers-hours') {
+    windSpeedUnit = `${Math.round((data.wind.speed * 3.6) * 100 + Number.EPSILON) / 100} kl/h`
   }
 
   document.getElementById('city-data').textContent = cityCapitalized;
@@ -143,21 +158,6 @@ const iconShower = (data) => {
   iconDescription.textContent = data.weather[0].description;
 }
 
-const windUnit = (data) => {
-  document.addEventListener('input', (event) => {
-    let unit = event.target.value;
-  
-    switch(unit) {
-      case 'miles-hours':
-        dataSection(data);
-        break;
-      case 'meters-seconds':
-        dataSection(data);
-        break;
-    }
-  })
-}
-
 const validateResponse = response => {
   if (!response.ok) {
     throw `Error message with the status code ${response.statusText}`
@@ -174,7 +174,6 @@ const logResolve = responseObject => {
   chartWeather(responseObject);
   dataSection(responseObject);
   iconShower(responseObject);
-  windUnit(responseObject)
 }
 
 const logReject = error => {
@@ -183,7 +182,7 @@ const logReject = error => {
   alert(`Can't find city of ${cityName} in ${countryAbbreviated}`);
 }
 
-const apiUrl = respones => {
+const apiUrlWeather = respones => {
   fetch(respones)
     .then(validateResponse)
     .then(jsonification)
@@ -191,7 +190,7 @@ const apiUrl = respones => {
     .catch(logReject)
 }
 
-apiUrl(apiLink);
+apiUrlWeather(apiLink);
 
 let apiData;
 
@@ -224,7 +223,6 @@ const chartWeather = (data) => {
             {
               ticks: {
                 callback: (value, index, values) => {
-                  // console.log(value, index, values);
                   return `${value}${unitSign}`;
                 }
               }
