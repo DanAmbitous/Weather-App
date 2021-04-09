@@ -10,65 +10,57 @@
   <title>Weather Application</title>
 </head>
 <body>
-  <div class="grid-container">
-    <div class="flex-container-inputs">
-      <div class="grid-item">
-        <!-- Input city and country abbreviation -->
-        <p>City: <input type="text" id="input-city" class="data" value="london" placeholder="New York, Madrid, Istanbul..."></p>
-        <p>Country: <input type="text" id="input-country" class="data" value="uk" placeholder="uk, ru, us..."></p>
-      </div>
-      
-      <!-- Selecting a temperature unit -->
-      <div class="grid-item">
-        <label for="temperature-units">Choose Temperature:</label>
-        <select name="temperature-units" id="temperature-units">
-          <option value="celsius" id="celsius">Celsius</option>
-          <option value="fahrenheit" id="fahrenheit">Fahrenheit</option>
-          <option value="kelvin" id="kelvin">Kelvin</option>
-        </select>
-      </div>
-    </div>
-   
-    <div class="grid-item">
-      <div id="weather-icon">
-        <img src="icons/unknown.png" alt="weather icon" id="weather-image">
-      </div>
-      <p id="icon-description"></p>
-    </div>
- 
-    <div class="grid-item">
-      <!-- Submit to update the data in JS -->
-      <button id="submit">Submit</button>
+  <div class="flex-inputs">
+    <!-- Input city and country abbreviation -->
+    <p>City: <input type="text" id="input-city" class="data" value="london" placeholder="New York, Madrid, Istanbul..."></p>
+    <p>Country: <input type="text" id="input-country" class="data" value="uk" placeholder="uk, ru, us..."></p>
+
+    <!-- Selecting a temperature unit -->
+    <div class="flex-temperature">
+      <label for="temperature-units">Choose Temperature:</label>
+      <select name="temperature-units" id="temperature-units">
+        <option value="celsius" id="celsius">Celsius</option>
+        <option value="fahrenheit" id="fahrenheit">Fahrenheit</option>
+        <option value="kelvin" id="kelvin">Kelvin</option>
+      </select>
     </div>
 
-    <div id="data-grid-item">
-      <div id="data" class="flex-container">
-        <p id="city-data"></p>
-        <p id="country-data"></p>
-        <p id="temperature-data"></p>
-        <p id="minimum-data"></p>
-        <p id="maximum-data"></p>
-        <p id="feels-data"></p>
-        <p id="humidity"></p>
-        <label for="pressure-units">Wind</label>
-        <p id="pressure"></p>
-        <label for="wind-units">Wind</label>
-        <select name="wind-units" id="wind-units">
-          <option value="meters-seconds">m/s</option>
-          <option value="miles-hours">mph</option>
-          <option value="feets-seconds">ft/s</option>
-          <option value="kilometers-hours">kl/h</option>
-        </select>
-        <p id="wind"></p></span>
-        <p id="longitud-data"></p>
-        <p id="latitud-data"></p>
-      </div>
-    </div>
-
-    <div class="grid-item">
-      <!-- Create a canvas element and draw the weather chart there -->
-      <canvas id="weather-information" style="width: 100%" style="height:100%"></canvas>
-    </div>
+    <!-- Submit to update the data in JS -->
+    <button id="submit">Submit</button>
   </div>
+
+  <div id="weather-icon">
+    <img src="icons/unknown.png" alt="weather icon" id="weather-image">
+    </div>
+    <p id="icon-description"></p>
+  </div>  
+
+  <div class="grid-datas">
+    <p id="city-data"></p>
+    <p id="country-data"></p>
+    <p id="temperature-data"></p>
+    <p id="minimum-data"></p>
+    <p id="maximum-data"></p>
+    <p id="feels-data"></p>
+    <p id="humidity"></p>
+    <p id="pressure"></p>
+  
+    <label for="wind-units">Wind</label>
+    <select name="wind-units" id="wind-units">
+      <option value="meters-seconds">m/s</option>
+      <option value="miles-hours">mph</option>
+      <option value="feets-seconds">ft/s</option>
+      <option value="kilometers-hours">kl/h</option>
+      <option value="kilometers-seconds">kl/s</option>
+      <option value="knot">knot</option>
+    </select>
+  
+    <p id="wind"></p></span>
+    <p id="longitud-data"></p>
+    <p id="latitud-data"></p>
+  </div>
+
+  <!-- Create a canvas element and draw the weather chart there -->
+  <canvas id="weather-information" style="width: 100%" style="height:100%"></canvas>
 </body>
 </html>

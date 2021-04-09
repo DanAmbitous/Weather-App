@@ -1,12 +1,14 @@
-/* .grid-container {
+.flex-inputs {
+  display: flex;
+  margin-bottom: 10vw;
+}
+
+.grid-datas {
   display: grid;
-
+  grid-template-columns: repeat(5, 1fr);
+  gap: 1vw;
 }
 
-.flex-container {
-  display: flex;
+#weather-icon {
+  float: right;
 }
-
-.flex-container-inputs {
-  display: flex;
-} */
