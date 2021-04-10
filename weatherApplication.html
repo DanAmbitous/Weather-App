@@ -18,16 +18,16 @@
     </div>
 
     <!-- Selecting a temperature unit -->
-    <div id="inputs-degress" class="inputs">
+    <div class="inputs">
       <label for="temperature-units">Choose Temperature:</label>
-      <select name="temperature-units" id="temperature-units" class="inputs">
+      <select name="temperature-units" id="temperature-units">
         <option value="celsius" id="celsius">Celsius</option>
         <option value="fahrenheit" id="fahrenheit">Fahrenheit</option>
         <option value="kelvin" id="kelvin">Kelvin</option>
       </select>
     </div>
 
-    <div class="grid-dates wind inputs">
+    <div class="grid-dates wind">
       <label for="wind-units">Wind</label>
       <select name="wind-units" id="wind-units">
         <option value="meters-seconds">m/s</option>
@@ -40,7 +40,7 @@
     </div>
 
     <!-- Submit to update the data in JS -->
-    <div id="submit" class="inputs">
+    <div>
       <button id="submit">Submit</button>
     </div>
   </div>
@@ -62,13 +62,19 @@
     <p id="feels-data"></p>
     <p id="humidity"></p>
     <p id="pressure"></p>
-
     <p id="wind"></p>
-    <p id="longitud-data"></p>
-    <p id="latitud-data"></p>
+    <div class="exact-location">
+      <p id="longitud-data"></p>
+      <p id="latitud-data"></p>
+    </div>
   </div>
 
   <!-- Create a canvas element and draw the weather chart there -->
   <canvas id="weather-information" style="width: 100%" style="height:100%"></canvas>
+
+  <footer>
+    <p>Create by Danial Azadpour 2021</p>
+    <a href="https://github.com/DanAmbitous/Weather-App" target="_blank">GitHub</a>
+  </footer>
 </body>
 </html>

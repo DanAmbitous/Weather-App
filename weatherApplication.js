@@ -53,7 +53,7 @@ const windUnit = (data) => {
   } else if (windOptions.value === 'miles-hours') {
     windSpeedUnit = `${Math.round((data.wind.speed * 2.23694) * 100 + Number.EPSILON) / 100} mph`;
   } else if (windOptions.value === 'feets-seconds') {
-    windSpeedUnit = `${Math.round((data.wind.speed * 3.28084) * 100 + Number.EPSILON) / 100} mph`;
+    windSpeedUnit = `${Math.round((data.wind.speed * 3.28084) * 100 + Number.EPSILON) / 100} ft/s`;
   } else if (windOptions.value === 'kilometers-hours') {
     windSpeedUnit = `${Math.round((data.wind.speed * 3.6) * 100 + Number.EPSILON) / 100} khp`
   } else if (windOptions.value === 'knot') {
@@ -94,8 +94,6 @@ document.addEventListener('keyup', (event) => {
       windUnit(apiLink);
   }
 })
-
-
 
 const dataSection = (data) => {
   let cityCapitalized = cityName.charAt(0).toUpperCase() + cityName.slice(1);
