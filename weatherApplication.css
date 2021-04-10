@@ -1,14 +1,80 @@
-.flex-inputs {
+:root {
+  --primary-color: #0080ff;
+  --secondary-color: #FF7F00;
+}
+
+body {
+  margin: 0;
+}
+
+#flex-inputs {
   display: flex;
-  margin-bottom: 10vw;
+  justify-content: center;
+  background-color: var(--primary-color);
+  align-items: center;
+  gap: 1vw;
+}
+
+#flex-inputs select {
+  border: none;
+}
+
+#flex-inputs button {
+  cursor: pointer;
+  border: none;
+  padding: 0.5vw;
+  border-radius: 0.5vw;
+}
+
+#flex-inputs #temperature-units {
+  border-radius: 0.5vw;
+  display: flex;
+  gap: 5vw;
+}
+
+#inputs-location {
+  display: flex;
+  font-size: 1.2em;
+}
+
+.data {
+  border: none;
+  padding: 1vw;
+}
+
+.wind {
+  display: flex;
+  align-items: center;
+}
+
+.flex-inputs > input {
+  justify-content: flex-end;
 }
 
 .grid-datas {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   gap: 1vw;
+  padding: 1vw;
 }
 
-#weather-icon {
-  float: right;
+.icon {
+  float:right;
+}
+
+.icon p {
+  display: flex;
+  justify-content: center;
+}
+
+@media (max-width: 500px) {
+  .flex-inputs {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .grid-datas {
+    display: block;
+  }
 }

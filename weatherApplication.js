@@ -5,7 +5,7 @@ const data = document.getElementById('data');
 const iconDescription = document.getElementById('icon-description');
 const windOptions = document.getElementById('wind-units');
 
-let countryAbbreviated = `${inputCountry.value.split('').join('.')}.`
+let countryAbbreviated = `${inputCountry.value.split('').join('.')}.`;
 
 let selectedUnit;
 let unitSign;
