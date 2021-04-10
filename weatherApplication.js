@@ -101,7 +101,7 @@ const dataSection = (data) => {
   let cityCapitalized = cityName.charAt(0).toUpperCase() + cityName.slice(1);
   
   windUnit(data);
-
+  
   document.getElementById('city-data').textContent = cityCapitalized;
   document.getElementById('country-data').textContent = data.sys.country;
   document.getElementById('temperature-data').textContent = `Temperature: ${data.main.temp}${unitSign}`;

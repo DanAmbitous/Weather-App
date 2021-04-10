@@ -27,6 +27,18 @@
       </select>
     </div>
 
+    <div class="grid-dates wind inputs">
+      <label for="wind-units">Wind</label>
+      <select name="wind-units" id="wind-units">
+        <option value="meters-seconds">m/s</option>
+        <option value="miles-hours">mph</option>
+        <option value="feets-seconds">ft/s</option>
+        <option value="kilometers-hours">kl/h</option>
+        <option value="kilometers-seconds">kl/s</option>
+        <option value="knot">knot</option>
+      </select>
+    </div>
+
     <!-- Submit to update the data in JS -->
     <div id="submit" class="inputs">
       <button id="submit">Submit</button>
@@ -50,20 +62,8 @@
     <p id="feels-data"></p>
     <p id="humidity"></p>
     <p id="pressure"></p>
-    
-    <div class="grid-dates wind">
-      <label for="wind-units">Wind</label>
-      <select name="wind-units" id="wind-units">
-        <option value="meters-seconds">m/s</option>
-        <option value="miles-hours">mph</option>
-        <option value="feets-seconds">ft/s</option>
-        <option value="kilometers-hours">kl/h</option>
-        <option value="kilometers-seconds">kl/s</option>
-        <option value="knot">knot</option>
-      </select>
-    </div>
-  
-    <p id="wind"></p></span>
+
+    <p id="wind"></p>
     <p id="longitud-data"></p>
     <p id="latitud-data"></p>
   </div>

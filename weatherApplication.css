@@ -7,6 +7,10 @@ body {
   margin: 0;
 }
 
+option {
+  opacity: 0.5;
+}
+
 #flex-inputs {
   display: flex;
   justify-content: center;
@@ -42,10 +46,6 @@ body {
   padding: 1vw;
 }
 
-.wind {
-  display: flex;
-  align-items: center;
-}
 
 .flex-inputs > input {
   justify-content: flex-end;
