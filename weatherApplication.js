@@ -102,6 +102,9 @@ const dataSection = (data) => {
   
   document.getElementById('city-data').textContent = cityCapitalized;
   document.getElementById('country-data').textContent = data.sys.country;
+
+  // domLayoutId('flag', data.sys.country);
+  document.querySelector("#flag").textContent = countryFlagEmoji.get(data.sys.country).emoji;
   document.getElementById('temperature-data').textContent = `Temperature: ${data.main.temp}${unitSign}`;
   document.getElementById('minimum-data').textContent = `Minimum: ${data.main.temp_min}${unitSign}`;
   document.getElementById('maximum-data').textContent = `Maximum: ${data.main.temp_max}${unitSign}`;
@@ -206,3 +209,7 @@ const chartWeather = (data) => {
 }
 
 // 'http://api.openweathermap.org/data/2.5/weather?q=london&APPID=469f04c0b3bc1ee6ca83abdfb8c7e6d3&units=metric'
+
+function domLayoutId(elementName, content) {
+  document.querySelector(elementName).textContent = content;
+}

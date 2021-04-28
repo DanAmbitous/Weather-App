@@ -19,6 +19,14 @@ body {
   border: none;
 }
 
+#country-layout {
+  display: flex;
+}
+
+#flag {
+  margin-left: 1vw;
+}
+
 #flex-inputs button {
   cursor: pointer;
   border: none;
